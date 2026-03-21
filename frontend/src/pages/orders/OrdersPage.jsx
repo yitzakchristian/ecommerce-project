@@ -9,7 +9,7 @@ export function OrdersPage({ cart }) {
 
   useEffect(() => {
     const getOrdersData = async () => {
-      const response = await axios.get('/api/orders?expand=products');
+      const response = await axios.get(`/api/orders?expand=products`);
       setOrders(response.data);
     };
 
