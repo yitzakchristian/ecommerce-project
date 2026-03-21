@@ -9,9 +9,12 @@ export function OrdersPage({ cart }) {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    axios
-      .get('/api/orders?expand=products')
-      .then(response => setOrders(response.data))
+    const getOrdersData = async () => {
+      const response = await axios.get('/api/orders?expand=products');
+      setOrders(response.data);
+    };
+
+    getOrdersData();
   }, []);
 
   return (
@@ -20,58 +23,58 @@ export function OrdersPage({ cart }) {
 
       <Header cart={cart} />
 
-      <div class="orders-page">
-        <div class="page-title">Your Orders</div>
-        <div class="orders-grid">
+      <div className="orders-page">
+        <div className="page-title">Your Orders</div>
+        <div className="orders-grid">
           {orders.map((order) => {
             return (
-              <div key={order.id} class="order-container">
+              <div key={order.id} className="order-container">
 
-                <div class="order-header">
-                  <div class="order-header-left-section">
-                    <div class="order-date">
-                      <div class="order-header-label">Order Placed:</div>
+                <div className="order-header">
+                  <div className="order-header-left-section">
+                    <div className="order-date">
+                      <div className="order-header-label">Order Placed:</div>
                       <div>{dayjs(order.orderTimeMs).format('dddd, MMMM D')}</div>
                     </div>
-                    <div class="order-total">
-                      <div class="order-header-label">Total:</div>
+                    <div className="order-total">
+                      <div className="order-header-label">Total:</div>
                       <div>{formatMoney(order.totalCostCents)}</div>
                     </div>
                   </div>
 
-                  <div class="order-header-right-section">
-                    <div class="order-header-label">Order ID:</div>
+                  <div className="order-header-right-section">
+                    <div className="order-header-label">Order ID:</div>
                     <div>{order.id}</div>
                   </div>
                 </div>
 
-                <div class="order-details-grid">
+                <div className="order-details-grid">
                   {order.products.map((orderProduct) => {
                     return (
                       <Fragment key={orderProduct.product.id}>
-                        <div class="product-image-container">
+                        <div className="product-image-container">
                           <img src={orderProduct.product.image} />
                         </div>
 
-                        <div class="product-details">
-                          <div class="product-name">
+                        <div className="product-details">
+                          <div className="product-name">
                             {orderProduct.product.name}
                           </div>
-                          <div class="product-delivery-date">
+                          <div className="product-delivery-date">
                             Arriving on: {dayjs(orderProduct.estimatedDeliveryTimeMs).format('MMMM, D')}
                           </div>
-                          <div class="product-quantity">
+                          <div className="product-quantity">
                             Quantity: {orderProduct.quantity}
                           </div>
-                          <button class="buy-again-button button-primary">
-                            <img class="buy-again-icon" src="images/icons/buy-again.png" />
-                            <span class="buy-again-message">Add to Cart</span>
+                          <button className="buy-again-button button-primary">
+                            <img className="buy-again-icon" src="images/icons/buy-again.png" />
+                            <span className="buy-again-message">Add to Cart</span>
                           </button>
                         </div>
 
-                        <div class="product-actions">
+                        <div className="product-actions">
                           <a href="/tracking">
-                            <button class="track-package-button button-secondary">
+                            <button className="track-package-button button-secondary">
                               Track package
                             </button>
                           </a>
